@@ -14,7 +14,7 @@ const Listing = new GraphQLObjectType({
   name: 'Listing',
   fields: {
     id: {
-      type: GraphQLNonNull(GraphQLString),
+      type: GraphQLNonNull(GraphQLID),
     },
     title: {
       type: GraphQLNonNull(GraphQLString),
