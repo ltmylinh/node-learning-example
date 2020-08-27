@@ -7,7 +7,7 @@ const app = express();
 const port = 9000;
 const server = new ApolloServer({ schema });
 
-server.applyMiddleware({ app, path: './api' });
+server.applyMiddleware({ app, path: '/api' });
 app.listen(port);
 
 console.log(`[app] is listening on port ${port}`);
