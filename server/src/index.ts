@@ -1,13 +1,27 @@
-import express from 'express';
+import express, { Application } from 'express';
 import { ApolloServer } from 'apollo-server-express';
 
 import { typeDefs, resolvers } from './graphql';
+import { connectDatabase } from './database';
 
-const app = express();
 const port = 9000;
-const server = new ApolloServer({ typeDefs, resolvers });
+const startApp = async (app: Application) => {
+  const db = await connectDatabase();
 
-server.applyMiddleware({ app, path: '/api' });
-app.listen(port);
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: () => ({ db }),
+  });
 
-console.log(`[app] is listening on port ${port}`);
+  server.applyMiddleware({ app, path: '/api' });
+  app.listen(port);
+
+  //test connection db
+  const listings = await db.listings.find({}).toArray();
+  console.log(listings);
+
+  console.log(`[app] is listening on port ${port}`);
+};
+
+startApp(express());
