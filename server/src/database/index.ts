@@ -1,19 +1,24 @@
 import { MongoClient } from 'mongodb';
 
 const username = 'user_001';
-const password = 'Testing20';
+const password = 'YNrhh7om6XbLMxLe';
 const cluster = 'cluster0';
+const dbName = 'main';
 
-const url = `mongodb+srv://${username}:${password}@${cluster}.mongodb.net`;
+const url = `mongodb+srv://${username}:${password}@cluster0.4lnm2.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 
 export const connectDatabase = async () => {
-  const client = await MongoClient.connect(url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-  const db = client.db('main');
+  const client = new MongoClient(url, { useUnifiedTopology: true });
 
-  return {
-    listings: db.collection('test_listing'),
-  };
+  try {
+    await client.connect();
+    const db = await client.db('main');
+
+    const listings = db.collection('test_listing');
+    return {
+      listings,
+    };
+  } catch (error) {
+    console.log(error);
+  }
 };

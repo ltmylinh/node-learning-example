@@ -18,7 +18,7 @@ const startApp = async (app: Application) => {
   app.listen(port);
 
   //test connection db
-  const listings = await db.listings.find({}).toArray();
+  const listings = await db?.listings?.find({}).toArray();
   console.log(listings);
 
   console.log(`[app] is listening on port ${port}`);
