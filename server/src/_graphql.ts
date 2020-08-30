@@ -8,7 +8,7 @@ import {
   GraphQLID,
 } from 'graphql';
 
-import { listing } from './listing';
+import { listings } from './listing';
 
 const Listing = new GraphQLObjectType({
   name: 'Listing',
@@ -34,7 +34,7 @@ const query = new GraphQLObjectType({
   fields: {
     listing: {
       type: GraphQLNonNull(GraphQLList(GraphQLNonNull(Listing))),
-      resolve: () => listing,
+      resolve: () => listings,
     },
   },
 });
@@ -50,9 +50,9 @@ const mutation = new GraphQLObjectType({
         },
       },
       resolve: (root, { id }) => {
-        for (let i = 0; i < listing.length; i++) {
-          if (listing[i].id === id) {
-            return listing.slice(i, 1)[0];
+        for (let i = 0; i < listings.length; i++) {
+          if (listings[i].id === id) {
+            return listings.slice(i, 1)[0];
           }
         }
         throw new Error('failing to delete listing');

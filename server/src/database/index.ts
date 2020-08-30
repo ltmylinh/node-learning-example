@@ -5,7 +5,7 @@ const password = 'YNrhh7om6XbLMxLe';
 const cluster = 'cluster0';
 const dbName = 'main';
 
-const url = `mongodb+srv://${username}:${password}@cluster0.4lnm2.mongodb.net/${dbName}?retryWrites=true&w=majority`;
+const url = `mongodb+srv://${username}:${password}@${cluster}.4lnm2.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 
 export const connectDatabase = async () => {
   const client = new MongoClient(url, { useUnifiedTopology: true });
