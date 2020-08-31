@@ -1,10 +1,12 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config();
+
 import express, { Application } from 'express';
 import { ApolloServer } from 'apollo-server-express';
 
 import { typeDefs, resolvers } from './graphql';
 import { connectDatabase } from './database';
 
-const port = 9000;
 const startApp = async (app: Application) => {
   const db = await connectDatabase();
 
@@ -15,13 +17,13 @@ const startApp = async (app: Application) => {
   });
 
   server.applyMiddleware({ app, path: '/api' });
-  app.listen(port);
+  app.listen(process.env.PORT);
 
   //test connection db
   const listings = await db?.listings?.find({}).toArray();
   console.log(listings);
 
-  console.log(`[app] is listening on port ${port}`);
+  console.log(`[app] is listening on port ${process.env.PORT}`);
 };
 
 startApp(express());

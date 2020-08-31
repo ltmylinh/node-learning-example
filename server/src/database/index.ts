@@ -1,11 +1,6 @@
 import { MongoClient } from 'mongodb';
 
-const username = 'user_001';
-const password = 'YNrhh7om6XbLMxLe';
-const cluster = 'cluster0';
-const dbName = 'main';
-
-const url = `mongodb+srv://${username}:${password}@${cluster}.4lnm2.mongodb.net/${dbName}?retryWrites=true&w=majority`;
+const url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_CLUSTER}.4lnm2.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 export const connectDatabase = async () => {
   const client = new MongoClient(url, { useUnifiedTopology: true });
