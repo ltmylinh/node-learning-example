@@ -19,10 +19,6 @@ const startApp = async (app: Application) => {
   server.applyMiddleware({ app, path: '/api' });
   app.listen(process.env.PORT);
 
-  //test connection db
-  const listings = await db?.listings?.find({}).toArray();
-  console.log(listings);
-
   console.log(`[app] is listening on port ${process.env.PORT}`);
 };
 
