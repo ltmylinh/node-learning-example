@@ -6,7 +6,7 @@ import { Listings } from './section';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Listings />
+    <Listings title='House Listing' />
   </React.StrictMode>,
   document.getElementById('root')
 );
