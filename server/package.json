@@ -1,5 +1,5 @@
 {
-  "name": "node-example-01",
+  "name": "node-example",
   "version": "1.0.0",
   "dependencies": {
     "apollo-server-express": "^2.16.1",
