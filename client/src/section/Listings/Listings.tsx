@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { server } from '../../lib/api';
+import { server, useQuery } from '../../lib/api';
 import {
   Listing,
   ListingsData,
@@ -37,13 +37,12 @@ const DELETE_LISTING = `
 `;
 
 export const Listings = ({ title }: Props) => {
-  const [listings, updateListings] = useState<Listing[] | null>(null);
+  const { data } = useQuery<ListingsData>(QUERY_LISTINGS);
 
   const fetchListings = async () => {
     const { data } = await server.fetch<ListingsData>({
       query: QUERY_LISTINGS,
     });
-    updateListings(data.listings);
   };
 
   const deleteListing = async (id: string) => {
@@ -56,6 +55,7 @@ export const Listings = ({ title }: Props) => {
     fetchListings();
   };
 
+  const listings = (data?.listings && data.listings) || null;
   const listingList = listings ? (
     <ul>
       {listings.map(({ id, title }) => (
@@ -71,7 +71,6 @@ export const Listings = ({ title }: Props) => {
     <>
       <h1>{title}</h1>
       {listingList}
-      <button onClick={fetchListings}>Fetch Listing</button>
     </>
   );
 };
