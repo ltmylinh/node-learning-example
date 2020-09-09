@@ -11,6 +11,7 @@ export const listingResolvers: IResolvers = {
       _args: {},
       { db }: { db: Database }
     ): Promise<Listing[]> => {
+      throw new Error("Something wrong when fetching data!");
       return await db.listings.find({}).toArray();
     },
   },
