@@ -37,7 +37,7 @@ const DELETE_LISTING = `
 `;
 
 export const Listings = ({ title }: Props) => {
-  const { data, refetch } = useQuery<ListingsData>(QUERY_LISTINGS);
+  const { data, loading, refetch } = useQuery<ListingsData>(QUERY_LISTINGS);
 
   const deleteListing = async (id: string) => {
     await server.fetch<DeleteListingData, DeleteListingVariables>({
@@ -62,7 +62,7 @@ export const Listings = ({ title }: Props) => {
     </ul>
   ) : null;
 
-  return (
+  return loading ? <h2>Loading...</h2>:(
     <>
       <h1>{title}</h1>
       {listingList}
