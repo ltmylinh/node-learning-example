@@ -1,13 +1,16 @@
 import React from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery, useMutation } from 'react-apollo';
+import { List, Avatar, Button, Spin, Alert } from 'antd';
 
-// import { useQuery, useMutation } from '../../lib/api';
 import {
   ListingsData,
   DeleteListingData,
   DeleteListingVariables,
 } from './types';
+
+import { ListingsSkeleton } from './components';
+import './styles/listings.css';
 
 interface Props {
   title: string;
@@ -55,40 +58,56 @@ export const Listings = ({ title }: Props) => {
   const listings = (data?.listings && data.listings) || null;
 
   const listingList = listings ? (
-    <ul>
-      {listings.map(({ id, title }) => (
-        <li key={id}>
-          {title}
-          <button onClick={() => onDeleteListing(id)}>Delete</button>
-        </li>
-      ))}
-    </ul>
+    <List
+      itemLayout='horizontal'
+      dataSource={listings}
+      renderItem={(listing) => (
+        <List.Item
+          actions={[
+            <Button
+              type='primary'
+              size='small'
+              onClick={() => onDeleteListing(listing.id)}
+            >
+              Delete
+            </Button>,
+          ]}
+        >
+          <List.Item.Meta
+            title={listing.title}
+            description={listing.address}
+            avatar={<Avatar src={listing.image} shape='square' size='large' />}
+          />
+        </List.Item>
+      )}
+    ></List>
   ) : null;
 
   if (loading) {
-    return <h2>Loading...</h2>;
+    return (
+      <div className='listings'>
+        <ListingsSkeleton title={title} />
+      </div>
+    );
   }
 
   if (error) {
     return (
-      <h2>Something is wrong with fetching data. Please try it later...</h2>
+      <div className='listings'>
+        <ListingsSkeleton title={title} error />
+      </div>
     );
   }
 
-  const deleteListingLoadingMessage = deleteListingLoading ? (
-    <h2>Deleting in progress...</h2>
-  ) : null;
-
-  const deleteListingErrorMessage = deleteListingError ? (
-    <h2>Failed to delete...</h2>
-  ) : null;
-
   return (
-    <>
-      <h1>{title}</h1>
-      {listingList}
-      {deleteListingLoadingMessage}
-      {deleteListingErrorMessage}
-    </>
+    <div className='listings'>
+      <Spin spinning={deleteListingLoading}>
+        <h2>{title}</h2>
+        {!deleteListingError && (
+          <Alert type='error' message='Failed to delete...' />
+        )}
+        {listingList}
+      </Spin>
+    </div>
   );
 };

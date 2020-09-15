@@ -1,0 +1,9 @@
+.listings {
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.listings .ant-alert {
+  margin: 10px 0;
+}
