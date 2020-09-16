@@ -1,5 +1,5 @@
 {
-  "name": "node-example",
+  "name": "houselist-server",
   "version": "1.0.0",
   "dependencies": {
     "apollo-server-express": "^2.16.1",

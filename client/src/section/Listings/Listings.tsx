@@ -103,7 +103,7 @@ export const Listings = ({ title }: Props) => {
     <div className='listings'>
       <Spin spinning={deleteListingLoading}>
         <h2>{title}</h2>
-        {!deleteListingError && (
+        {deleteListingError && (
           <Alert type='error' message='Failed to delete...' />
         )}
         {listingList}
