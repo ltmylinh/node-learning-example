@@ -86,9 +86,9 @@ export const viewerResolvers: IResolvers = {
       _root: undefined,
       { input }: LogInArgs,
       { db }: { db: Database }
-    ) => {
+    ): Promise<Viewer> => {
       try {
-        const code = (input?.code && input.code) || null;
+        const code = input ? input.code : null;
         const token = crypto.randomBytes(16).toString('hex');
 
         const viewer: User | undefined = code
@@ -106,7 +106,9 @@ export const viewerResolvers: IResolvers = {
           walletId: viewer.walletId,
           didRequest: true,
         };
-      } catch (error) {}
+      } catch (error) {
+        throw new Error(`Failed to log in: ${error}`);
+      }
     },
     logOut: (): Viewer => {
       try {
