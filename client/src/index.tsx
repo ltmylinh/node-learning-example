@@ -3,23 +3,37 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
+
+import { Layout } from 'antd';
+
 import * as serviceWorker from './serviceWorker';
 
-import { Home, Listing, Listings, Host, NotFound, User } from './section';
+import {
+  Home,
+  Listing,
+  Listings,
+  Host,
+  NotFound,
+  User,
+  Login,
+} from './section';
 import './styles/index.css';
 
 const client = new ApolloClient({ uri: '/api' });
 
 const App = () => (
   <Router>
-    <Switch>
-      <Route exact path='/' component={Home} />
-      <Route exact path='/host' component={Host} />
-      <Route exact path='/listing/:id' component={Listing} />
-      <Route exact path='/listings/:location?' component={Listings} />
-      <Route exact path='/user/:id' component={User} />
-      <Route component={NotFound} />
-    </Switch>
+    <Layout id='app'>
+      <Switch>
+        <Route exact path='/' component={Home} />
+        <Route exact path='/host' component={Host} />
+        <Route exact path='/listing/:id' component={Listing} />
+        <Route exact path='/listings/:location?' component={Listings} />
+        <Route exact path='/user/:id' component={User} />
+        <Route exact path='/login' component={Login} />
+        <Route component={NotFound} />
+      </Switch>
+    </Layout>
   </Router>
 );
 
