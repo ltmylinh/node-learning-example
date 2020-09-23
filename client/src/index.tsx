@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
-import { Layout } from 'antd';
+import { Layout, Affix } from 'antd';
 
 import * as serviceWorker from './serviceWorker';
 import { Viewer } from './lib/types';
 
 import {
+  AppHeader,
   Home,
   Listing,
   Listings,
@@ -35,6 +36,9 @@ const App = () => {
   return (
     <Router>
       <Layout id='app'>
+        <Affix offsetTop={0} className='app__affix-header'>
+          <AppHeader {...{ viewer, setViewer }} />
+        </Affix>
         <Switch>
           <Route exact path='/' component={Home} />
           <Route exact path='/host' component={Host} />
