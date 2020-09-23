@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useApolloClient, useMutation } from '@apollo/react-hooks';
+import { Redirect } from 'react-router-dom';
 import { Layout, Typography, Card, Spin } from 'antd';
 
 import googleLogo from './assets/google_logo.jpg';
@@ -11,6 +12,12 @@ import {
   LogInVariables,
 } from '../../lib/graphql/mutations/LogIn/__generated__/LogIn';
 import { AuthUrl as IAuthUrl } from '../../lib/graphql/queries/AuthUrl/__generated__/AuthUrl';
+
+import { ErrorBanner } from '../../lib/components';
+import {
+  displaySuccessNotification,
+  displayErrorMessage,
+} from '../../lib/utils';
 
 const { Content } = Layout;
 const { Text, Title } = Typography;
@@ -29,10 +36,12 @@ export const Login = ({ setViewer }: Props) => {
     onCompleted: (data) => {
       if (data?.logIn) {
         setViewer(data.logIn);
+        displaySuccessNotification("You've successfully logged in!");
       }
     },
   });
 
+  //hold the orginal logIn
   const logInRef = useRef(logIn);
 
   useEffect(() => {
@@ -48,7 +57,11 @@ export const Login = ({ setViewer }: Props) => {
       if (data) {
         window.location.href = data.authUrl;
       }
-    } catch (error) {}
+    } catch (error) {
+      displayErrorMessage(
+        "Sorry! We weren't able to log you in. Please try again later!"
+      );
+    }
   };
 
   if (logInLoading) {
@@ -59,8 +72,19 @@ export const Login = ({ setViewer }: Props) => {
     );
   }
 
+  const logInErrorBanner = logInError ? (
+    <ErrorBanner description="We weren't able to log you in. Please try again soon." />
+  ) : null;
+
+  //redirect to user detail page
+  if (logInData?.logIn) {
+    const { id: viewerId } = logInData.logIn;
+    return <Redirect to={`/user/${viewerId}`} />;
+  }
+
   return (
     <Content className='log-in'>
+      {logInErrorBanner}
       <Card className='log-in-card'>
         <div className='log-in-card__intro'>
           <Title level={3} className='log-in-card__intro-title'>
