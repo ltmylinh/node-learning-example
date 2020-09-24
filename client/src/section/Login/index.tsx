@@ -36,6 +36,14 @@ export const Login = ({ setViewer }: Props) => {
     onCompleted: (data) => {
       if (data?.logIn) {
         setViewer(data.logIn);
+
+        //set token in session storage
+        if (data.logIn?.token) {
+          sessionStorage.setItem('token', data.logIn.token);
+        } else {
+          sessionStorage.removeItem('token');
+        }
+
         displaySuccessNotification("You've successfully logged in!");
       }
     },
