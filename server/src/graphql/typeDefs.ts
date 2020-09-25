@@ -1,6 +1,27 @@
 import { gql } from 'apollo-server-express';
 
 export const typeDefs = gql`
+  type Bookings {
+    total: Int!
+    result: [Booking!]!
+  }
+
+  type Listings {
+    total: Int!
+    result: [Listing!]!
+  }
+
+  type User {
+    id: ID!
+    name: String!
+    avatar: String!
+    contact: String!
+    hasWallet: Boolean!
+    income: Int
+    bookings(limit: Int!, page: Int!): Bookings
+    listings(limit: Int!, page: Int!): Listings!
+  }
+
   type Viewer {
     id: ID
     token: String
@@ -15,6 +36,7 @@ export const typeDefs = gql`
 
   type Query {
     authUrl: String!
+    user: String!
   }
 
   type Mutation {
