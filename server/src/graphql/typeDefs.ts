@@ -1,9 +1,37 @@
 import { gql } from 'apollo-server-express';
 
 export const typeDefs = gql`
+  type Booking {
+    id: ID!
+    listing: Listing!
+    tenant: User!
+    checkIn: String!
+    checkOut: String!
+  }
+
   type Bookings {
     total: Int!
     result: [Booking!]!
+  }
+
+  enum ListingType {
+    APARTMENT
+    HOUSE
+  }
+
+  type Listing {
+    id: ID!
+    title: String!
+    description: String!
+    image: String!
+    host: User!
+    type: ListingType!
+    address: String!
+    city: String!
+    bookings(limit: Int!, page: Int!): Bookings
+    bookingsIndex: String!
+    price: Int!
+    numOfGuests: Int!
   }
 
   type Listings {
@@ -36,7 +64,7 @@ export const typeDefs = gql`
 
   type Query {
     authUrl: String!
-    user: String!
+    user(id: ID!): User!
   }
 
   type Mutation {
