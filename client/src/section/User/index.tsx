@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-apollo';
 import { RouteComponentProps } from 'react-router-dom';
 import { Col, Layout, Row } from 'antd';
@@ -9,7 +9,7 @@ import {
   UserVariables,
 } from '../../lib/graphql/queries/User/__generated__/User';
 
-import { UserProfile } from './components';
+import { UserProfile, UserBookings, UserListings } from './components';
 import { Viewer } from '../../lib/types';
 
 import { ErrorBanner, PageSkeleton } from '../../lib/components';
@@ -24,12 +24,22 @@ interface Props {
 
 const { Content } = Layout;
 
+const PAGE_LIMIT = 4;
+
 export const User = ({
   match,
   viewer,
 }: Props & RouteComponentProps<MatchParams>) => {
+  const [bookingsPage, setBookingsPage] = useState<number>(1);
+  const [listingsPage, setListingsPage] = useState<number>(1);
+
   const { data, loading, error } = useQuery<UserData, UserVariables>(USER, {
-    variables: { id: match.params.id },
+    variables: {
+      id: match.params.id,
+      bookingsPage,
+      listingsPage,
+      limit: PAGE_LIMIT,
+    },
   });
 
   if (loading) {
@@ -55,10 +65,31 @@ export const User = ({
     <UserProfile user={user} viewerIsUser={viewerIsUser} />
   ) : null;
 
+  const userBookings = user?.bookings || null;
+  const userListings = user?.listings || null;
+
   return (
     <Content className='user'>
       <Row gutter={12} justify='space-between'>
         <Col xs={24}>{userProfileElm}</Col>
+        <Col xs={24}>
+          <UserBookings
+            bookings={userBookings}
+            bookingsPage={bookingsPage}
+            setBookingsPage={setBookingsPage}
+            limit={PAGE_LIMIT}
+          />
+        </Col>
+        <Col xs={24}>
+          {userListings && (
+            <UserListings
+              listings={userListings}
+              listingsPage={listingsPage}
+              setListingsPage={setListingsPage}
+              limit={PAGE_LIMIT}
+            />
+          )}
+        </Col>
       </Row>
     </Content>
   );
