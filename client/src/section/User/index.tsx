@@ -74,7 +74,7 @@ export const User = ({
         <Col xs={24}>{userProfileElm}</Col>
         <Col xs={24}>
           <UserBookings
-            bookings={userBookings}
+            userBookings={userBookings}
             bookingsPage={bookingsPage}
             setBookingsPage={setBookingsPage}
             limit={PAGE_LIMIT}
@@ -83,7 +83,7 @@ export const User = ({
         <Col xs={24}>
           {userListings && (
             <UserListings
-              listings={userListings}
+              userListings={userListings}
               listingsPage={listingsPage}
               setListingsPage={setListingsPage}
               limit={PAGE_LIMIT}
