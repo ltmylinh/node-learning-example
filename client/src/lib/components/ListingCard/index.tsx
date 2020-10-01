@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, Typography } from 'antd';
-import Icon from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 
+import { iconColor, formatListingPrice } from '../../utils';
 interface Props {
   listing: {
     id: string;
@@ -31,7 +32,7 @@ export const ListingCard = ({ listing }: Props) => {
       <div className='listing-card__details'>
         <div className='listing-card__description'>
           <Title level={4} className='listing-card__price'>
-            {price}
+            {formatListingPrice(price)}
             <span>/day</span>
           </Title>
           <Text strong ellipsis className='listing-card__title'>
@@ -42,7 +43,7 @@ export const ListingCard = ({ listing }: Props) => {
           </Text>
         </div>
         <div className='listing-card__dimensions listing-card__dimensions--guests'>
-          <Icon type='user' />
+          <UserOutlined style={{ color: iconColor }} />
           <Text>{numOfGuests} guests</Text>
         </div>
       </div>
