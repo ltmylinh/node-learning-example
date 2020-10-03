@@ -16,7 +16,7 @@ export const LISTING = gql`
       type
       address
       city
-      bookings(limit: $limit, page: $bookingsPage) {
+      bookings(limit: $limit, page: $bookingPage) {
         total
         result {
           id
