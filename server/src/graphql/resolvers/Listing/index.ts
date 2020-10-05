@@ -4,7 +4,14 @@ import { Request } from 'express';
 
 import { Listing, Database, User, Booking } from '../../../lib/types';
 import { authorize } from '../../../lib/utils';
-import { ListingArgs, ListingBookingArgs, ListingBookingData } from './types';
+import {
+  ListingArgs,
+  ListingBookingArgs,
+  ListingBookingData,
+  ListingsArgs,
+  ListingsData,
+  ListingsFilter,
+} from './types';
 
 export const listingResolvers: IResolvers = {
   Query: {
@@ -27,6 +34,38 @@ export const listingResolvers: IResolvers = {
         return listing;
       } catch (error) {
         throw new Error(`Failed to query listing: ${error}`);
+      }
+    },
+    listings: async (
+      _root: undefined,
+      { filter, limit, page }: ListingsArgs,
+      { db }: { db: Database }
+    ): Promise<ListingsData | null> => {
+      try {
+        const data: ListingsData = {
+          total: 0,
+          result: [],
+        };
+
+        const cursor = await db.listings.find({});
+
+        if (filter && ListingsFilter.PRICE_LOW_TO_HIGH) {
+          cursor.sort({ price: 1 });
+        }
+
+        if (filter && ListingsFilter.PRICE_HIGH_TO_LOW) {
+          cursor.sort({ price: -1 });
+        }
+
+        cursor.skip(page > 0 ? (page - 1) * limit : 0);
+        cursor.limit(limit);
+
+        data.total = await cursor.count();
+        data.result = await cursor.toArray();
+
+        return data;
+      } catch (error) {
+        throw new Error(`Failed to query listings: ${error}`);
       }
     },
   },
