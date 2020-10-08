@@ -1,4 +1,5 @@
 import { google } from 'googleapis';
+import { createClient } from '@google/maps';
 
 const auth = new google.auth.OAuth2(
   process.env.G_CLIENT_ID,
@@ -10,6 +11,8 @@ const scopes = [
   'https://www.googleapis.com/auth/userinfo.email',
   'https://www.googleapis.com/auth/userinfo.profile',
 ];
+
+const maps = createClient({ key: `${process.env.G_GEOCODE_KEY}`, Promise });
 
 export const Google = {
   authUrl: auth.generateAuthUrl({
