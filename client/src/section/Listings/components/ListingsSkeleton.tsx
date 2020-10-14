@@ -1,28 +1,41 @@
 import React from 'react';
-import { Skeleton, Alert, Divider } from 'antd';
+import { Skeleton, List, Card } from 'antd';
 
-import '../styles/listingsSkeleton.css';
+import listingLoadingCardCover from '../assets/listing-loading-card-cover.jpg';
 
 interface Props {
   title: string;
   error?: boolean;
 }
-export const ListingsSkeleton = ({ title, error }: Props) => {
+export const ListingsSkeleton = () => {
+  const emptyData = [{}, {}, {}, {}, {}, {}, {}, {}];
+
   return (
-    <div className='listings-skeleton'>
-      <h2>{title}</h2>
-      {error && (
-        <Alert
-          type='error'
-          message='Opps! Something is wrong with fetching data. Please try it later...'
-        />
-      )}
-      <Skeleton active paragraph={{ rows: 1 }} />
-      <Divider />
-      <Skeleton active paragraph={{ rows: 1 }} />
-      <Divider />
-      <Skeleton active paragraph={{ rows: 1 }} />
-      <Divider />
+    <div>
+      <Skeleton paragraph={{ rows: 1 }} />
+      <List
+        grid={{
+          gutter: 8,
+          xs: 1,
+          sm: 2,
+          lg: 4,
+        }}
+        dataSource={emptyData}
+        renderItem={() => (
+          <List.Item>
+            <Card
+              cover={
+                <div
+                  style={{ backgroundImage: `url(${listingLoadingCardCover})` }}
+                  className='listings-skeleton__card-cover-img'
+                ></div>
+              }
+              loading
+              className='listings-skeleton__card'
+            />
+          </List.Item>
+        )}
+      />
     </div>
   );
 };
