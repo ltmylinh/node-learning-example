@@ -65,8 +65,22 @@ export const typeDefs = gql`
     didRequest: Boolean!
   }
 
+  type HostListingInput{
+
+  }
+
   input LogInInput {
     code: String!
+  }
+
+  input HostListingInput {
+    title: String!
+    description: String!
+    image: String!
+    type: ListingType!
+    address: String!
+    price: Int!
+    numOfGuests: Int!
   }
 
   type Query {
@@ -84,5 +98,6 @@ export const typeDefs = gql`
   type Mutation {
     logIn(input: LogInInput): Viewer!
     logOut: Viewer!
+    hostListing(input: HostListingInput): String!
   }
 `;
