@@ -65,16 +65,6 @@ export const typeDefs = gql`
     didRequest: Boolean!
   }
 
-  type HostListingInput{
-    title: String!
-    description: String!
-    image: String!
-    type: ListingType!
-    address: String!
-    price: Int!
-    numOfGuests: Int!
-  }
-
   input LogInInput {
     code: String!
   }
