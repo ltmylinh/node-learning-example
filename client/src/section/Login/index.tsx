@@ -19,7 +19,7 @@ import {
   displayErrorMessage,
 } from '../../lib/utils';
 
-const { Content } = Layout;
+const { Content, Header } = Layout;
 const { Text, Title } = Typography;
 
 interface Props {
